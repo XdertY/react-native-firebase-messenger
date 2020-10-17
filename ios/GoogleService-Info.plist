@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>19476736411-ep8p8if8p1sofbb69ad5nlvgs9ag36k1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.19476736411-ep8p8if8p1sofbb69ad5nlvgs9ag36k1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCwHxXtI6XEBkPaSW2pr3HSjGEYZamHLDA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>19476736411</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.native-messenger</string>
+	<key>PROJECT_ID</key>
+	<string>native-messenger-359a2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>native-messenger-359a2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:19476736411:ios:74e8bbf0ab396c0b23993e</string>
+	<key>DATABASE_URL</key>
+	<string>https://native-messenger-359a2.firebaseio.com</string>
+</dict>
+</plist>

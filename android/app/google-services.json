@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "19476736411",
+    "firebase_url": "https://native-messenger-359a2.firebaseio.com",
+    "project_id": "native-messenger-359a2",
+    "storage_bucket": "native-messenger-359a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19476736411:android:8674c3dfc38a3aa123993e",
+        "android_client_info": {
+          "package_name": "com.native_messenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19476736411-kdm0gguc6vkjrmgvcf4binhiqugsta4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNYm05BC9dkFwmvXmdPihMNfKUqPYCtuc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19476736411-kdm0gguc6vkjrmgvcf4binhiqugsta4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
