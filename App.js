@@ -1,69 +1,91 @@
 import React, {useState, useEffect, Fragment} from 'react';
-import {StyleSheet, Text, View, TouchableHighlight, TextInput,SafeAreaView} from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import firestore from '@react-native-firebase/firestore';
+import {StyleSheet, View, SafeAreaView, TouchableHighlight, Text} from 'react-native';
+import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
-import {library} from '@fortawesome/fontawesome-svg-core';
+import Login from './src/components/Login';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
-library.add(fab, faCheckSquare, faCoffee)
 
 export default function App(props) {
-
-  //FIREBASE Auth properties
-
-  //FIREBASE Firestore data test property
-  const [data, setData] = useState('');
-
-  //Login Properties ->  to be moved to new component
-  const [userName, setUserName] = useState('Enter Username');
-  const [password, setPassword] = useState("Enter Password");
-  const ref = firestore().collection('messages');
-  // ...
+  //Google Auth
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState(null);
+  //Phone Auth
+  const [code, setCode] = useState(null);
+  const [confirm, setConfirm] = useState(null);
 
   GoogleSignin.configure({
     webClientId: '19476736411-kdm0gguc6vkjrmgvcf4binhiqugsta4b.apps.googleusercontent.com',
   });
 
+  const onAuthStateChanged = (user) => {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
 
   useEffect(() => {
-    return ref.onSnapshot(querySnapshot => {
-      const list = [];
-      querySnapshot.forEach(doc => {
-        const {title, complete} = doc.data();
-        setData(doc.data().test.toString());
-      });
-    });
-  });
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, [])
 
-  const onChangeHandler = (e, inputField) => {
-    if(inputField === "username")
-      setUserName(e);
-    else
-      setPassword(e);
+  const onGoogleButtonPress  =  async ()  => {
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
   }
 
-  const removePlaceHolderHandler = (inputField) => {
-    if(inputField === "username") {
-      if (userName === "Enter Username")
-        setUserName("");
-    } else {
-      if(password === "Enter Password")
-          setPassword("")
-    }
-
+  const logoutGoogleHandler = () => {
+    auth()
+        .signOut()
+        .then(() => console.log('User signed out!'));
   }
 
-  const onEndEditingHandler = (inputField) => {
-    if(inputField === "username") {
-      if (userName === "")
-        setUserName("Enter Username");
-    } else {
-      if(password === "")
-        setPassword("Enter Password")
-    }
+  const loginHandler = (email, password) => {
+    auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert('Logged in!')
+        })
+        .catch(error => {
+          alert(error.code + error.message)
 
+          alert(error);
+        })
+  }
+
+  const signUpHandler = (email, password) => {
+    auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+           alert('User Created')
+        })
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            alert('That email address is already in use!');
+          }
+
+          if (error.code === 'auth/invalid-email') {
+           alert('That email address is invalid!');
+          }
+
+          alert(error);
+        })
+  }
+
+  const signInWithPhoneNumber = async (phoneNumber) => {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+  }
+
+  const confirmCode = async (code) => {
+    try {
+      await confirm.confirm(code);
+    } catch (error) {
+      alert('Invalid code.');
+    }
   }
 
 
@@ -72,42 +94,20 @@ export default function App(props) {
         <View style={styles.mainContainer}>
 
           <SafeAreaView>
-              <View style={styles.safeAreaView}>
+            {!user ?
+              <Login googleHandler={onGoogleButtonPress}  logoutGoogle={logoutGoogleHandler}
+                     signUpHandler={signUpHandler} loginHandler={loginHandler}
+                     phoneSingUpHandler={confirmCode} phoneNumberHandler={signInWithPhoneNumber}
+              />
+              :
 
-                <View style={{...styles.generalContainer, marginTop: "50%"}}>
-                        <Text style={styles.loginText}>Login</Text>
-
-                      <TextInput value={userName}
-                                 onFocus={() => removePlaceHolderHandler("username")}
-                                 onChange={(e) => onChangeHandler(e, "username")}
-                                 onEndEditing={() => onEndEditingHandler("username")}
-                                 style={styles.textInput} />
-
-                      <TextInput value={password}
-                                 onFocus={() => removePlaceHolderHandler("password")}
-                                 onChange={(e) => onChangeHandler(e, "password")} onEndEditing={() => onEndEditingHandler("password")}
-                                 style={{...styles.textInput, marginTop: "5%"}} />
-                </View>
-
-                <View style={styles.generalContainer}>
-
-
-                  <TouchableHighlight style={{...styles.button, marginTop: 20}} >
-                    <View>
-                      <Text>Log in</Text>
-                    </View>
-                  </TouchableHighlight>
-
-                  <TouchableHighlight style={styles.button} >
-                    <View >
-                      <FontAwesomeIcon icon={['fab', 'google']} />
-                      <Text>Log in with Google</Text>
-                    </View>
-                  </TouchableHighlight>
-
-                </View>
-
-              </View>
+                <TouchableHighlight style={styles.button}
+                                     onPress={() => logoutGoogleHandler()}>
+                  <View style={{flexDirection: 'row'}}>
+                    <FontAwesomeIcon style={{marginRight: 10}} icon={['fab', 'google']} />
+                    <Text>Log out</Text>
+                  </View>
+                </TouchableHighlight>}
           </SafeAreaView>
         </View>
     </Fragment>
@@ -116,55 +116,8 @@ export default function App(props) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#515756',
+    backgroundColor: '#264653',
     height: "100%",
-  },
-  safeAreaView: {
-    backgroundColor: '#43ccb5',
-    height: "100%",
-    flexDirection: "column",
-  },
-  loginText: {
-    // width: "100%",
-    color: '#515756',
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: '5%'
-  },
-  generalContainer: {
-    flexDirection: "column",
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  topRowView : {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    // marginTop: '50%'
-  },
-  rowsView : {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: 'center',
-    margin: '3%'
-  },
-  textInput : {
-    borderBottomColor: "white",
-    borderBottomWidth: 1,
-    color: '#515756',
-    width: "80%"
-  },
-  button : {
-    width: "80%",
-    padding: 10,
-    color: '#515756',
-    borderWidth: 1,
-    borderColor: '#515756',
-    borderRadius: 8,
-    backgroundColor: "#91dcfa",
-    marginBottom: 10,
-    alignItems: 'center'
-  },
+  }
 
 });

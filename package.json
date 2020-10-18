@@ -16,11 +16,18 @@
     "@fortawesome/react-native-fontawesome": "^0.2.6",
     "@invertase/react-native-apple-authentication": "^2.0.2",
     "@react-native-community/google-signin": "^5.0.0",
+    "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^8.4.5",
     "@react-native-firebase/auth": "^9.3.1",
     "@react-native-firebase/firestore": "^7.8.7",
+    "@react-navigation/native": "^5.7.6",
+    "@react-navigation/stack": "^5.9.3",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-reanimated": "^1.13.1",
+    "react-native-safe-area-context": "^3.1.8",
+    "react-native-screens": "^2.11.0",
     "react-native-svg": "^12.1.0"
   },
   "devDependencies": {
