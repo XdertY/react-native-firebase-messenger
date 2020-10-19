@@ -41,9 +41,7 @@ const Login = (props) => {
     const submitCodeHandler = () => {
         setShowCodeView(false);
         setShowModal(false);
-        userContext.confirmCode(code).then(resp => {
-            console.log(resp);
-        });
+        userContext.confirmCode(code)
     }
 
     // const fadeIn = () => {

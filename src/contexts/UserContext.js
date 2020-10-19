@@ -1,6 +1,7 @@
 import React, {useEffect, useState, createContext} from 'react';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import firestore from '@react-native-firebase/firestore';
 
 export const UserContext = createContext({})
 
@@ -15,6 +16,8 @@ const UserContextProvider = (props) => {
 
 
     const onAuthStateChanged = (user) => {
+        console.log("AuthStateChanged")
+        console.log(user);
         setUser(user);
         props.setUser(user);
         //Stack.Screen('Home')
@@ -48,7 +51,8 @@ const UserContextProvider = (props) => {
         loginHandler : (email, password) => {
             auth()
                 .signInWithEmailAndPassword(email, password)
-                .then(() => {
+                .then((cred) => {
+                    console.log(cred)
                     alert('Logged in!')
                 })
                 .catch(error => {
@@ -61,9 +65,14 @@ const UserContextProvider = (props) => {
         signUpHandler : (email, password) => {
             auth()
                 .createUserWithEmailAndPassword(email, password)
-                .then(() => {
+                .then((cred) => {
+                    return firestore().collection("users").doc(cred.user._user.uid).set({
+                        firstName: "",
+                        lastName: "",
+                        phoneNumber: "",
+                    })
                     alert('User Created')
-                    Stack.Screen('Home')
+                    //Stack.Screen('Home')
                 })
                 .catch(error => {
                     if (error.code === 'auth/email-already-in-use') {
@@ -78,16 +87,26 @@ const UserContextProvider = (props) => {
                 })
         },
 
-        signInWithPhoneNumber : async (phoneNumber) => {
-            // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then( async () => {
-            const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-            setConfirm(confirmation);
+        signInWithPhoneNumber :  (phoneNumber) => {
+            auth().signInWithPhoneNumber(phoneNumber).then(cred => {
+                setConfirm(cred);
+            })
 
         },
 
-        confirmCode : async (code) => {
+        confirmCode : (code) => {
             try {
-                await confirm.confirm(code);
+                let cred = auth.PhoneAuthProvider.credential(confirm.verificationId , code);
+                console.log(cred);
+                auth().signInWithCredential(cred).then(resp => {
+                     return firestore().collection("users").doc(resp.user._user.uid).set({
+                         firstName: "",
+                         lastName: "",
+                         phoneNumber: resp.user._user.phoneNumber
+                     })
+                }).catch(err => {
+                    console.log("Error logging in user");
+                });
             } catch (error) {
                 alert('Invalid code.');
             }

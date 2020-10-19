@@ -1,10 +1,13 @@
-import React, {useContext} from 'react';
-import {Text, TouchableHighlight, View} from 'react-native';
+import React, {useContext, useState, useEffect} from 'react';
+import {Text, TextInput, TouchableHighlight, View} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {UserContext} from '../contexts/UserContext';
+import * as firebase from '@react-native-firebase/app'
 
 const HomeScreen = (props) => {
     const userContext = useContext(UserContext)
+
+    const [newPhone, setNewPhone] = useState("");
 
     // style={styles.button}
     return (
@@ -18,6 +21,14 @@ const HomeScreen = (props) => {
                     <Text>Log out</Text>
                 </View>
             </TouchableHighlight>
+
+
+                <TextInput placeholder="Enter your phone number" keyboardType={'phone-pad'}
+                           onChangeText={(text) => setNewPhone(text)}
+                           value={newPhone} />
+
+
+
             </View>
 
     )
@@ -29,7 +40,6 @@ const styles = {
         height: "100%",
     },
     button : {
-        margin: "50%",
         fontSize: 20,
         width: "80%",
         padding: 10,
