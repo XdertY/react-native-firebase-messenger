@@ -1,12 +1,11 @@
-import React, {useState, useEffect, useRef, Fragment} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View, Modal, Animated} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {GoogleSignin, GoogleSigninButton} from '@react-native-community/google-signin';
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faCheckSquare, faCoffee, faMobile } from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core';
+import {UserContext} from '../contexts/UserContext';
 
 library.add(fab, faCheckSquare, faCoffee)
 
@@ -17,6 +16,8 @@ const Login = (props) => {
     const [code, setCode] = useState('')
     const [phone, setPhone] = useState('')
     const [showCodeView, setShowCodeView] = useState(false)
+
+    const userContext = useContext(UserContext)
 
     const fadeAnim = useRef(new Animated.Value(1)).current;
 
@@ -40,24 +41,26 @@ const Login = (props) => {
     const submitCodeHandler = () => {
         setShowCodeView(false);
         setShowModal(false);
-        props.phoneSingUpHandler(code);
+        userContext.confirmCode(code).then(resp => {
+            console.log(resp);
+        });
     }
 
-    const fadeIn = () => {
-        // Will change fadeAnim value to 1 in 5 seconds
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 500
-        }).start();
-    };
-
-    const fadeOut = () => {
-        // Will change fadeAnim value to 0 in 5 seconds
-        Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 5000
-        }).start();
-    };
+    // const fadeIn = () => {
+    //     // Will change fadeAnim value to 1 in 5 seconds
+    //     Animated.timing(fadeAnim, {
+    //         toValue: 1,
+    //         duration: 500
+    //     }).start();
+    // };
+    //
+    // const fadeOut = () => {
+    //     // Will change fadeAnim value to 0 in 5 seconds
+    //     Animated.timing(fadeAnim, {
+    //         toValue: 0,
+    //         duration: 5000
+    //     }).start();
+    // };
 
 
 
@@ -91,7 +94,7 @@ const Login = (props) => {
                                        value={phone}
                                        style={styles.modalTextInput} />
                             <TouchableHighlight disabled={phone === ''}
-                                onPress={() => {setShowCodeView(true); props.phoneNumberHandler(phone)}}
+                                onPress={() => {setShowCodeView(true); userContext.signInWithPhoneNumber(phone)}}
                                 style={{...styles.button, marginTop: 20}} >
                                 <View>
                                     <Text>Confirm</Text>
@@ -141,7 +144,7 @@ const Login = (props) => {
 
 
                 <TouchableHighlight disabled={disableButtons()}
-                                    onPress={() => props.loginHandler(email, password)}
+                                    onPress={() => userContext.loginHandler(email, password)}
                                     style={{...styles.button, marginTop: 20}} >
                     <View>
                         <Text>Log in</Text>
@@ -149,14 +152,14 @@ const Login = (props) => {
                 </TouchableHighlight>
 
                 <TouchableOpacity disabled={disableButtons()} style={styles.button}
-                                    onPress={() => props.signUpHandler(email,password)}>
+                                    onPress={() => userContext.signUpHandler(email,password)}>
                     <View style={{flexDirection: 'row'}}>
                         <Text>Sign up</Text>
                     </View>
                 </TouchableOpacity>
 
                 <TouchableHighlight style={styles.button}
-                                    onPress={() => props.googleHandler()}>
+                                    onPress={() => userContext.onGoogleButtonPress()}>
                     <View style={{flexDirection: 'row'}}>
                         <FontAwesomeIcon style={{marginRight: 10}} icon={['fab', 'google']} />
                         <Text>Log in with Google</Text>
