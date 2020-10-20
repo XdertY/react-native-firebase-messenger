@@ -20,6 +20,7 @@
 		64A4F0C64A13F0438C6A8B04 /* libPods-native_messenger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF920C36FECB715BC4E99AB /* libPods-native_messenger.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		AEE1E0A4475978BFD9B6C89A /* libPods-native_messenger-native_messengerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4922DA4AAE4F14E42CD7DFA /* libPods-native_messenger-native_messengerTests.a */; };
+		F64C596B22A343889A40E4B2 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEA430D511AB47848625A345 /* Ionicons.ttf */; };
 		FA0E1814253A52D40001E7BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA0E1813253A52D40001E7BF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		9EA909F1691F9008B69CC966 /* Pods-native_messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_messenger.debug.xcconfig"; path = "Target Support Files/Pods-native_messenger/Pods-native_messenger.debug.xcconfig"; sourceTree = "<group>"; };
 		A08A791A0C27D4482AF358BE /* libPods-native_messenger-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-native_messenger-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1BD9DC4E82E83E9B27C63B7 /* Pods-native_messenger-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_messenger-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-native_messenger-tvOSTests/Pods-native_messenger-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		BEA430D511AB47848625A345 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-ionicons/fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		BEDCF917D86A0A735A3CB8B8 /* libPods-native_messenger-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-native_messenger-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4C64C790CF5E69D10814E5A /* Pods-native_messenger-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_messenger-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-native_messenger-tvOS/Pods-native_messenger-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		D5259FC08EB09255C2D96039 /* Pods-native_messenger-native_messengerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-native_messenger-native_messengerTests.release.xcconfig"; path = "Target Support Files/Pods-native_messenger-native_messengerTests/Pods-native_messenger-native_messengerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				B362D42EC7BC8559928532E4 /* Pods */,
+				B33757B4523C4481BBDF0962 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -185,6 +188,14 @@
 				2D02E4901E0B4A5D006451C7 /* native_messenger-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B33757B4523C4481BBDF0962 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BEA430D511AB47848625A345 /* Ionicons.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		B362D42EC7BC8559928532E4 /* Pods */ = {
@@ -349,6 +360,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FA0E1814253A52D40001E7BF /* GoogleService-Info.plist in Resources */,
+				F64C596B22A343889A40E4B2 /* Ionicons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,9 @@ target 'native_messenger' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+
+
+
   target 'native_messengerTests' do
     inherit! :complete
     # Pods for testing
